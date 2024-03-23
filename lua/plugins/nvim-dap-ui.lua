@@ -1,0 +1,137 @@
+-- Debugging Support
+return {
+  {
+    'rcarriga/nvim-dap-ui',
+    event = 'VeryLazy',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'theHamsta/nvim-dap-virtual-text',   -- inline variable text while debugging
+      'nvim-telescope/telescope-dap.nvim',
+      'nvim-neotest/nvim-nio',
+    },
+    opts = {
+      controls = {
+        element = "repl",
+        enabled = false,
+        icons = {
+          disconnect = "",
+          pause = "",
+          play = "",
+          run_last = "",
+          step_back = "",
+          step_into = "",
+          step_out = "",
+          step_over = "",
+          terminate = ""
+        }
+      },
+      element_mappings = {},
+      expand_lines = true,
+      floating = {
+        border = "single",
+        mappings = {
+          close = { "q", "<Esc>" }
+        }
+      },
+      force_buffers = true,
+      icons = {
+        collapsed = "",
+        current_frame = "",
+        expanded = ""
+      },
+      layouts = {
+        {
+          elements = {
+            {
+              id = "scopes",
+              size = 0.50
+            },
+            {
+              id = "stacks",
+              size = 0.30
+            },
+            {
+              id = "watches",
+              size = 0.10
+            },
+            {
+              id = "breakpoints",
+              size = 0.10
+            }
+          },
+          size = 40,
+          position = "left", -- Can be "left" or "right"
+        },
+        {
+          elements = {
+            "repl",
+            "console",
+          },
+          size = 10,
+          position = "bottom", -- Can be "bottom" or "top"
+        }
+      },
+      mappings = {
+        edit = "e",
+        expand = { "<CR>", "<2-LeftMouse>" },
+        open = "o",
+        remove = "d",
+        repl = "r",
+        toggle = "t"
+      },
+      render = {
+        indent = 1,
+        max_value_lines = 100
+      }
+    },
+    config = function(_, opts)
+      local dap = require('dap')
+      require('dapui').setup(opts)
+
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        require('dapui').open()
+      end
+
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        -- Commented to prevent DAP UI from closing when unit tests finish
+        -- require('dapui').close()
+      end
+
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        -- Commented to prevent DAP UI from closing when unit tests finish
+        -- require('dapui').close()
+      end
+
+      -- Add dap configurations based on your language/adapter settings
+      -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
+      -- dap.configurations.xxxxxxxxxx = {
+      --   {
+      --   },
+      -- }
+    end
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+    ft = "python",
+    config = function()
+      require("dap-python").setup()
+    end,
+  },
+  {
+    "leoluz/nvim-dap-go",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+    ft = "go",
+    config = function()
+      require("dap-go").setup()
+
+      vim.keymap.set("n", "<leader><leader>gdm", function()
+        require("dap-go").debug_test()
+      end)
+    end,
+  },
+}

@@ -3,6 +3,9 @@ return {
   'echasnovski/mini.surround',
   version = '*',
   config = function(_, opts)
-    require("mini.surround").setup()
+    require("mini.surround").setup({
+      symbol = "▏",
+      require('mini.indentscope').gen_animation.none()
+    })
   end
 }

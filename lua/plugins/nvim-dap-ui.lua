@@ -5,12 +5,13 @@ return {
     event = 'VeryLazy',
     dependencies = {
       'mfussenegger/nvim-dap',
-      'theHamsta/nvim-dap-virtual-text',   -- inline variable text while debugging
+      'theHamsta/nvim-dap-virtual-text', -- inline variable text while debugging
       'nvim-telescope/telescope-dap.nvim',
       'nvim-neotest/nvim-nio',
+      'leoluz/nvim-dap-go'
     },
-    opts = {
-      controls = {
+    optr = {
+      controlr = {
         element = "repl",
         enabled = false,
         icons = {

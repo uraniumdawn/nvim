@@ -3,6 +3,33 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
+-- Move selected block
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Delete single character without copying into register
+keymap.set("n", "x", '"_x')
+
+-- Halph page jumping
+keymap.set("n", "<C-d>", "<C-d>zz")
+keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Search in a midle
+keymap.set("n", "n", "nzzzv")
+keymap.set("n", "N", "Nzzzv")
+
+keymap.set("x", "<leader>p", [["_dP]])
+
+keymap.set("i", "<C-c>", "<Esc>")
+
+-- Quickfix keymaps
+keymap.set("n", "<leader>qo", ":copen<CR>")  -- open quickfix list
+keymap.set('n', "<leader>qf", ":cfirst<CR>") -- jump to first quickfix list item
+keymap.set("n", "<leader>qn", ":cnext<CR>")  -- jump to next quickfix list item
+keymap.set("n", "<leader>qp", ":cprev<CR>")  -- jump to prev quickfix list item
+keymap.set("n", "<leader>ql", ":clast<CR>")  -- jump to last quickfix list item
+keymap.set("n", "<leader>qc", ":cclose<CR>") -- close quickfix list
+
 -- General keymaps
 keymap.set("i", "jj", "<ESC>")                 -- exit insert mode with jk
 keymap.set("i", "ii", "<ESC>")                 -- exit insert mode with ii
@@ -20,6 +47,11 @@ keymap.set("i", "<C-h>", "<Left>", {})
 keymap.set("i", "<C-l>", "<Right>", {})
 keymap.set("i", "<C-j>", "<Down>", {})
 keymap.set("i", "<C-k>", "<Up>", {})
+
+-- Buffer navigation
+keymap.set('n', "<Tab>", ":bnext <CR>")       -- to next buffer
+keymap.set('n', "<S-Tab>", ":bprevious <CR>") -- to previous buffer
+keymap.set('n', "<leader>d", ":bd! <CR>")     -- to delete current buffer
 
 -- Split window management
 keymap.set("n", "<leader>sv", "<C-w>v")     -- split window vertically
@@ -79,17 +111,25 @@ keymap.set("n", "<leader>h7", function() require("harpoon.ui").nav_file(7) end)
 keymap.set("n", "<leader>h8", function() require("harpoon.ui").nav_file(8) end)
 keymap.set("n", "<leader>h9", function() require("harpoon.ui").nav_file(9) end)
 
+-- Here's the list of available keybindings (https://github.com/VonHeikemen/lsp-zero.nvim?tab=readme-ov-file#keybindings):
+-- K: Displays hover information about the symbol under the cursor in a floating window. See :help vim.lsp.buf.hover().
+-- gd: Jumps to the definition of the symbol under the cursor. See :help vim.lsp.buf.definition().
+-- gD: Jumps to the declaration of the symbol under the cursor. Some servers don't implement this feature. See :help vim.lsp.buf.declaration().
+-- gi: Lists all the implementations for the symbol under the cursor in the quickfix window. See :help vim.lsp.buf.implementation().
+-- go: Jumps to the definition of the type of the symbol under the cursor. See :help vim.lsp.buf.type_definition().
+-- gr: Lists all the references to the symbol under the cursor in the quickfix window. See :help vim.lsp.buf.references().
+-- gs: Displays signature information about the symbol under the cursor in a floating window. See :help vim.lsp.buf.signature_help(). If a mapping already exists for this key this function is not bound.
+-- <F2>: Renames all references to the symbol under the cursor. See :help vim.lsp.buf.rename().
+-- <F3>: Format code in current buffer. See :help vim.lsp.buf.format().
+-- <F4>: Selects a code action available at the current cursor position. See :help vim.lsp.buf.code_action().
+-- gl: Show diagnostics in a floating window. See :help vim.diagnostic.open_float().
+-- [d: Move to the previous diagnostic in the current buffer. See :help vim.diagnostic.goto_prev().
+-- ]d: Move to the next diagnostic. See :help vim.diagnostic.goto_next().
+
 -- LSP
-keymap.set('n', '<leader>gg', '<cmd>lua vim.lsp.buf.hover()<CR>')
-keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-keymap.set('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-keymap.set('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-keymap.set('n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-keymap.set('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-keymap.set('n', '<leader>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+keymap.set('n', 'gR', '<cmd>Telescope lsp_references<CR>') -- show definition, references
 keymap.set('n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
--- keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
--- keymap.set('v', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
 keymap.set('n', '<leader>ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 keymap.set('n', '<leader>gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
 keymap.set('n', '<leader>gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
@@ -97,6 +137,8 @@ keymap.set('n', '<leader>gn', '<cmd>lua vim.diagnostic.goto_next()<CR>')
 keymap.set('n', '<leader>tr', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 keymap.set('i', '<C-Space>', '<cmd>lua vim.lsp.buf.completion()<CR>')
 keymap.set('i', '<C-Space>', '<cmd>lua vim.lsp.buf.completion()<CR>')
+-- keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
+-- keymap.set('v', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>')
 keymap.set('n', '<leader>gf', function() require("conform").format({ async = true, lsp_fallback = true }) end)
 keymap.set('v', '<leader>gf', function() require("conform").format({ async = true, lsp_fallback = true }) end)
 

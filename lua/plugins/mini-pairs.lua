@@ -1,3 +1,4 @@
+-- Autopairs
 return {
   'echasnovski/mini.pairs',
   version = '*',

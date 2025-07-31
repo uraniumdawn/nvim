@@ -1,3 +1,4 @@
+-- Go support
 return {
   'olexsmir/gopher.nvim',
   dependencies = {

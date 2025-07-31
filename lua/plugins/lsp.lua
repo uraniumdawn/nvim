@@ -1,3 +1,4 @@
+-- LSP and autocompletion
 return {
   'VonHeikemen/lsp-zero.nvim',
   branch = 'v3.x',
@@ -21,11 +22,12 @@ return {
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-cmdline' },
+    { 'ray-x/lsp_signature.nvim' },
   },
   config = function()
     local lsp_zero = require('lsp-zero')
     lsp_zero.on_attach(function(client, bufnr)
-      lsp_zero.default_keymaps({ buffer = bufnr })
+      lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
     end)
 
     require('mason').setup({})
@@ -60,6 +62,9 @@ return {
               client.server_capabilities.documentFormattingProvider = true
               client.server_capabilities.documentFormattingRangeProvider = true
             end,
+            on_attach = function()
+              print('lua_ls server is attached')
+            end,
             settings = {
               Lua = {
                 format = {
@@ -78,6 +83,24 @@ return {
             },
           })
         end,
+        gopls = function()
+          require('lspconfig').gopls.setup({
+            on_attach = function()
+              print('gopls server is attached')
+            end,
+            settings = {
+              gopls = {
+                analyses = {
+                  unusedparams = true,
+                },
+                completeUnimported = true,
+                usePlaceholders = true,
+                staticcheck = true,
+                gofumpt = true,
+              },
+            }
+          })
+        end
       },
     })
 
@@ -146,5 +169,7 @@ return {
         documentation = cmp.config.window.bordered(),
       },
     })
+
+    require('lsp_signature').setup({})
   end,
 }

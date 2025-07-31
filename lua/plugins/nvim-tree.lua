@@ -18,7 +18,6 @@ return {
       update_root = false,
     },
     view = {
-      adaptive_size = true,
       side = 'right',
       width = 50,
       preserve_window_proportions = true,

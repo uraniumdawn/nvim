@@ -26,6 +26,7 @@ return {
       'xml',
       'yaml',
       'csv',
+      'vim',
       'json',
     },
   },

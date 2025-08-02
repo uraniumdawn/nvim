@@ -1,22 +1,14 @@
 # Neovim Keybindings
 
-This document outlines the custom and default keybindings for this Neovim configuration.
+This document outlines the custom keybindings for this Neovim configuration, as defined in `lua/core/keymaps.lua`.
 
-## Custom Keybindings
-
-These keybindings are defined in `lua/core/keymaps.lua`.
-
-### General
+### Editing
 
 | Key | Mode | Description |
 |---|---|---|
-| `<leader>wq` | Normal | Save and quit |
-| `<leader>qq` | Normal | Quit without saving |
-| `<leader>ww` | Normal | Save |
-| `gx` | Normal | Open URL under cursor |
-| `x` | Normal | Delete single character without copying |
 | `J` | Visual | Move selected block down |
 | `K` | Visual | Move selected block up |
+| `x` | Normal | Delete single character without copying |
 | `<leader>p` | Visual | Paste without copying to register |
 | `jj` / `ii` | Insert | Exit insert mode |
 | `<C-c>` | Insert | Exit insert mode |
@@ -26,8 +18,9 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<C-l>` | Insert | Move right |
 | `<C-j>` | Insert | Move down |
 | `<C-k>` | Insert | Move up |
+| `<leader>s` | Normal | Replace word under cursor in buffer |
 
-### Navigation
+### Navigation & File Management
 
 | Key | Mode | Description |
 |---|---|---|
@@ -35,11 +28,18 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<C-u>` | Normal | Page up and center |
 | `n` | Normal | Next search result and center |
 | `N` | Normal | Previous search result and center |
+| `<leader>wq` | Normal | Save and quit |
+| `<leader>qq` | Normal | Quit without saving |
+| `<leader>ww` | Normal | Save |
+| `gx` | Normal | Open URL under cursor |
 | `<Tab>` | Normal | Next buffer |
 | `<S-Tab>` | Normal | Previous buffer |
 | `<leader>d` | Normal | Delete current buffer |
+| `<leader>ee` | Normal | Toggle file explorer (Nvim-tree) |
+| `<leader>er` | Normal | Focus file explorer (Nvim-tree) |
+| `<leader>ef` | Normal | Find file in file explorer (Nvim-tree) |
 
-### Window Management
+### Window & Tab Management
 
 | Key | Mode | Description |
 |---|---|---|
@@ -51,17 +51,12 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<leader>sk` | Normal | Increase split window height |
 | `<leader>sl` | Normal | Increase split window width |
 | `<leader>sh` | Normal | Decrease split window width |
-
-### Tab Management
-
-| Key | Mode | Description |
-|---|---|---|
 | `<leader>to` | Normal | Open new tab |
 | `<leader>tx` | Normal | Close tab |
 | `<leader>tn` | Normal | Next tab |
 | `<leader>tp` | Normal | Previous tab |
 
-### Quickfix List
+### Quickfix & Diffs
 
 | Key | Mode | Description |
 |---|---|---|
@@ -71,13 +66,44 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<leader>qp` | Normal | Previous quickfix item |
 | `<leader>ql` | Normal | Last quickfix item |
 | `<leader>qc` | Normal | Close quickfix list |
+| `<leader>cc` | Normal | Diff put |
+| `<leader>cj` | Normal | Diff get (local) |
+| `<leader>ck` | Normal | Diff get (remote) |
+| `<leader>cn` | Normal | Next diff hunk |
+| `<leader>cp` | Normal | Previous diff hunk |
 
-### LSP (Language Server Protocol)
+### Telescope
+
+| Key | Mode | Description |
+|---|---|---|
+| `<leader>fg` | Normal | Live grep |
+| `<leader>ff` | Normal | Find files |
+| `<leader>fa` | Normal | Find all files (including hidden) |
+| `<leader>fw` | Normal | Live grep in word under cursor |
+| `<leader>fb` | Normal | Buffers |
+| `<leader>fz` | Normal | Fuzzy find in current buffer |
+| `<leader>fh` | Normal | Help tags |
+| `<leader>fs` | Normal | Fuzzy find in current buffer |
+| `<leader>fo` | Normal | LSP document symbols |
+| `<leader>fi` | Normal | LSP incoming calls |
+| `<leader>fm` | Normal | Treesitter methods |
+| `<leader>u` | Normal | Undo history |
+
+### Git & Harpoon
+
+| Key | Mode | Description |
+|---|---|---|
+| `<leader>gb` | Normal | Toggle Git Blame |
+| `<leader>ha` | Normal | Add file to Harpoon |
+| `<leader>hh` | Normal | Toggle Harpoon menu |
+| `<leader>h1-9`| Normal | Navigate to Harpoon file 1-9 |
+
+### LSP & Debugging
 
 | Key | Mode | Description |
 |---|---|---|
 | `<leader>gd` | Normal | Go to type definition |
-| `gR` | Normal | Show references (via Telescope) |
+| `gR` | Normal | Show references (Telescope) |
 | `<leader>rr` | Normal | Rename |
 | `<leader>ga` | Normal | Code action |
 | `<leader>gl` | Normal | Show line diagnostics |
@@ -86,29 +112,24 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<leader>tr` | Normal | Document symbols |
 | `<leader>gf` | Normal/Visual | Format code |
 | `<C-Space>` | Insert | Completion |
-
-### Debugging (nvim-dap)
-
-| Key | Mode | Description |
-|---|---|---|
 | `<leader>bb` | Normal | Toggle breakpoint |
 | `<leader>bc` | Normal | Set conditional breakpoint |
 | `<leader>bl` | Normal | Set log point |
 | `<leader>br` | Normal | Clear all breakpoints |
 | `<leader>ba` | Normal | List breakpoints (Telescope) |
-| `<leader>dc` | Normal | Continue |
-| `<leader>dj` | Normal | Step over |
-| `<leader>dk` | Normal | Step into |
-| `<leader>do` | Normal | Step out |
-| `<leader>dd` | Normal | Disconnect |
-| `<leader>dt` | Normal | Terminate |
-| `<leader>dr` | Normal | Toggle REPL |
-| `<leader>dl` | Normal | Run last |
-| `<leader>di` | Normal | Hover (widgets) |
-| `<leader>d?` | Normal | Scopes (widgets) |
-| `<leader>df` | Normal | Frames (Telescope) |
-| `<leader>dh` | Normal | Commands (Telescope) |
-| `<leader>de` | Normal | Diagnostics (Telescope) |
+| `<leader>dc` | Normal | Continue (Debug) |
+| `<leader>dj` | Normal | Step over (Debug) |
+| `<leader>dk` | Normal | Step into (Debug) |
+| `<leader>do` | Normal | Step out (Debug) |
+| `<leader>dd` | Normal | Disconnect (Debug) |
+| `<leader>dt` | Normal | Terminate (Debug) |
+| `<leader>dr` | Normal | Toggle REPL (Debug) |
+| `<leader>dl` | Normal | Run last (Debug) |
+| `<leader>di` | Normal | Hover (Debug) |
+| `<leader>d?` | Normal | Scopes (Debug) |
+| `<leader>df` | Normal | Frames (Telescope Debug) |
+| `<leader>dh` | Normal | Commands (Telescope Debug) |
+| `<leader>de` | Normal | Diagnostics (Telescope Debug) |
 
 ### Go
 
@@ -117,85 +138,8 @@ These keybindings are defined in `lua/core/keymaps.lua`.
 | `<leader>gsj` | Normal | Add `json` struct tag |
 | `<leader>gsy` | Normal | Add `yaml` struct tag |
 
-### Other
+### Help
 
 | Key | Mode | Description |
 |---|---|---|
-| `<leader>s` | Normal | Replace word under cursor in buffer |
-
----
-
-## Plugin Default Keybindings
-
-### Nvim-Tree
-
-| Key | Action |
-|---|---|
-| `<CR>`, `o`, `l` | Open file or directory |
-| `h` | Close current node |
-| `v` | Open in vertical split |
-| `R` | Refresh |
-| `H` | Show/hide hidden files |
-| `E` | Expand all |
-| `W` | Collapse all |
-| `-` | Go up one directory |
-| `s` | Open with system default application |
-| `f` | Find file |
-| `F` | Close find |
-| `Ctrl + k` | Show file information |
-| `q` | Close file explorer |
-| `g?` | Show help |
-
-### Telescope
-
-| Key | Mode | Action |
-|---|---|---|
-| `<C-n>`/`<Down>` | Insert | Next item |
-| `<C-p>`/`<Up>` | Insert | Previous item |
-| `j`/`k` | Normal | Next/previous item |
-| `<CR>` | All | Confirm selection |
-| `<C-x>` | All | Go to file in a split |
-| `<C-v>` | All | Go to file in a vsplit |
-| `<C-t>` | All | Go to a file in a new tab |
-| `<C-c>` | Insert | Close telescope |
-| `<Esc>` | Normal | Close telescope |
-| `<C-q>` | All | Send all items to quickfixlist |
-| `<M-q>` | All | Send selected items to quickfixlist |
-| `?` | Normal | Show mappings for picker actions |
-
-### mini.comment
-
-This plugin has no default keybindings. The following are custom mappings:
-
-| Key | Mode | Action |
-|---|---|---|
-| `gc` | Normal/Visual | Toggle comment |
-
-### mini.surround
-
-| Key | Mode | Action |
-|---|---|---|
-| `gsa` | Normal/Visual | Add surrounding |
-| `gsd` | Normal | Delete surrounding |
-| `gsr` | Normal | Replace surrounding |
-| `gsf` | Normal | Find surrounding (right) |
-| `gsF` | Normal | Find surrounding (left) |
-| `gsh` | Normal | Highlight surrounding |
-
-### quickfixdd
-
-| Key | Mode | Action |
-|---|---|---|
-| `dd` | Normal (in quickfix) | Delete item from list |
-
-### nvim-dap-ui
-
-| Key | Element | Action |
-|---|---|---|
-| `e` | Scopes, Watches | Edit value |
-| `<CR>` | Scopes, Watches | Expand/collapse |
-| `o` | Stacks, Breakpoints | Go to location |
-| `d` | Watches | Remove watch |
-| `t` | Breakpoints | Toggle breakpoint |
-| `r` | Scopes, Watches | Send to REPL |
-| `q`, `<Esc>` | Floating | Close |
+| `?` | Normal | Toggle keybindings help window |

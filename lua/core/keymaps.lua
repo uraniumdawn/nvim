@@ -176,3 +176,6 @@ keymap.set("n", '<leader>gsy', '<cmd> GoTagAdd yaml <CR>')
 -- Replace word under cursor across entire buffer
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "Replace word under cursor" })
+
+-- Toggle help window
+keymap.set("n", "?", function() require("core.help").toggle() end)

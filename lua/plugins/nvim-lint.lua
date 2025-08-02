@@ -3,22 +3,27 @@ return {
   'mfussenegger/nvim-lint',
   event = 'BufWritePost',
   config = function()
-    -- Define a table of linters for each filetype (not extension).
-    -- Additional linters can be found here: https://github.com/mfussenegger/nvim-lint#available-linters
+    -- This function conditionally sets the linter for Go files.
+    -- By default, no linter is active for Go.
+    local go_linters = {}
+
+    -- If a .golangci.yml file is found in the project's root directory,
+    -- 'golangci-lint' is enabled as the linter for Go files.
+    -- This ensures that linting is only performed when a project is
+    -- explicitly configured for it.
+    if vim.fn.filereadable(vim.loop.cwd() .. '/.golangci.yml') == 1 then
+      go_linters = { 'golangcilint' }
+    end
+
     require('lint').linters_by_ft = {
       python = {
-        -- Uncomment whichever linters you prefer
         'flake8',
-        -- 'mypy',
-        -- 'pylint',
       },
-      go = { 'golangcilint' }
+      go = go_linters,
     }
 
-    -- Automatically run linters after saving.  Use "InsertLeave" for more aggressive linting.
     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-      -- Only run linter for the following extensions. Remove this to always run.
-      pattern = { "*.py", },
+      pattern = { "*.py", "*.go" },
       callback = function()
         require("lint").try_lint()
       end,

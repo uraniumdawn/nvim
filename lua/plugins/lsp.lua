@@ -51,6 +51,8 @@ return {
           'goimports',
           'gofumpt',
           'golines',
+          'stylua',
+          'golangci-lint',
         },
       }),
 
